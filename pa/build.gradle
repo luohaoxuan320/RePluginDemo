@@ -1,0 +1,103 @@
+apply plugin: 'com.android.application'
+
+
+buildscript {
+
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.qihoo360.replugin:replugin-plugin-gradle:2.2.1'
+  }
+}
+
+android {
+  compileSdkVersion 26
+  defaultConfig {
+    applicationId "com.lehow.pa"
+    minSdkVersion 18
+    targetSdkVersion 26
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+
+  flavorDimensions "buildType","environment"
+
+  productFlavors {
+
+    //编译类型的维度
+
+    //作为单体运行
+    devSelf {
+      dimension  "buildType"
+    }
+
+    //作为插件编译
+    plugin{
+      dimension  "buildType"
+    }
+
+    //环境的配置
+    envOnline{
+
+      dimension  "environment"
+      buildConfigField 'String', 'API_HOST_URL', '"http://uat_api.fy13322.com/"'
+    }
+    envTmode{
+      dimension  "environment"
+      buildConfigField 'String', 'API_HOST_URL', '"http://192.168.10.217:7080/"'
+    }
+    envDev{
+      dimension  "environment"
+      buildConfigField 'String', 'API_HOST_URL', '"http://192.168.10.224:7080/"'
+    }
+
+  }
+}
+
+
+class GreetingPlugin implements Plugin<Project> {
+  void apply(Project project) {
+
+    project.gradle.startParameter.taskRequests.each { TaskExecutionRequest taskq ->
+      println '==startParameter=taskRequest=' + taskq
+      if (taskq.args.toString().contains('assembleDevSelf')) {
+        //在DevSelf下就不apply replugin。这样调整主要是方便宿主直接打包插件时能apply replugin
+      }else if(taskq.args.toString().contains('assemble')){//防止 sync gradle的时候replugin插件运行
+        //作为插件编译的时候，才apply replugin，这样可以避免单体调试的时候replugin，Unzip Jar和Repackage依赖的jar包，这个过程太慢
+        println '===plugin=replugin-plugin-gradle==='
+        project.plugins.apply('replugin-plugin-gradle')
+      }
+    }
+  }
+}
+apply plugin: GreetingPlugin
+
+
+dependencies {
+  compile 'com.qihoo360.replugin:replugin-plugin-lib:2.2.1'
+  devSelfImplementation 'com.android.support:appcompat-v7:26.1.0'
+
+
+  //作为插件的时候才这样
+  pluginImplementation('com.android.support:appcompat-v7:26.1.0') {
+    exclude group: 'com.android.support', module: 'support-fragment'
+  }
+  pluginCompileOnly files('libs/fragment-26.1.0.jar')
+
+
+  implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+  testImplementation 'junit:junit:4.12'
+  androidTestImplementation 'com.android.support.test:runner:1.0.1'
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}

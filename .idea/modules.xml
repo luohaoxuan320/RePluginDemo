@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RePluginDemo.iml" filepath="$PROJECT_DIR$/RePluginDemo.iml" />
+      <module fileurl="file://D:\Workspace\RePluginDemo\RePluginViewPagerWithPluginFragment.iml" filepath="D:\Workspace\RePluginDemo\RePluginViewPagerWithPluginFragment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pa/pa.iml" filepath="$PROJECT_DIR$/pa/pa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plogin/plogin.iml" filepath="$PROJECT_DIR$/plogin/plogin.iml" />
+    </modules>
+  </component>
+</project>

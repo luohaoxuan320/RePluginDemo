@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.qihoo360.replugin:replugin-host-gradle:2.2.1'
+    }
+}
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.lehow.test.vpfragment"
+        minSdkVersion 18
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions 'environment'
+
+    productFlavors{
+        //环境的配置
+        envOnline{
+            dimension  "environment"
+            buildConfigField 'String', 'API_HOST_URL', '"http://uat_api.fy13322.com/"'
+        }
+        envTmode{
+            dimension  "environment"
+            buildConfigField 'String', 'API_HOST_URL', '"http://192.168.10.217:7080/"'
+        }
+        envDev{
+            dimension  "environment"
+            buildConfigField 'String', 'API_HOST_URL', '"http://192.168.10.224:7080/"'
+        }
+    }
+
+}
+
+apply plugin: 'replugin-host-gradle'
+
+/**
+ * 配置项均为可选配置，默认无需添加
+ * 更多可选配置项参见replugin-host-gradle的RepluginConfig类
+ * 可更改配置项参见 自动生成RePluginHostConfig.java
+ */
+repluginHostConfig {
+    /**
+     * 是否使用 AppCompat 库
+     * 不需要个性化配置时，无需添加
+     */
+    useAppCompat = true
+
+    persistentEnable = false
+}
+
+dependencies {
+    compile 'com.qihoo360.replugin:replugin-host-lib:2.2.1'
+    implementation ('com.android.support:appcompat-v7:26.1.0'){
+    }
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.android.support:design:26.1.0'
+}
+
+
+//定义打包是要参与编译的插件
+def moduleName=[':pa':true]
+import com.android.build.gradle.api.ApplicationVariant
+android.applicationVariants.all{
+    ApplicationVariant variant ->
+        moduleName.findAll {it->it.value==true}.each { pluginModule->
+            def pluginName=pluginModule.key
+            def pluginPrj=rootProject.project(pluginName);
+
+            //找到插件对应的assemble flavor task
+            def subAssemble=pluginPrj.tasks.
+                getByPath("$pluginName:${variant.assemble.name.replace('assemble','assemblePlugin')}")
+
+            subAssemble.doLast {
+                def apkName="${pluginPrj.name}-plugin-${variant.flavorName}-${variant.buildType.name}.apk"
+                def chars=variant.flavorName.chars
+                chars[0]=chars[0].toUpperCase() //首字母大写
+                copy {
+                    //从插件的生成的apk
+
+                    from "../../${pluginPrj.parent.name}/${pluginPrj.name}/build/outputs/apk/plugin${chars}/${variant.buildType.name}/${apkName}"
+                    //拷贝到宿主的assert下
+                    into "/src/main/assets/plugins/"
+                    //并且重命名
+                    rename("${apkName}", "${pluginPrj.name}.jar")
+                }
+            }
+
+            //app的assemble flavor 的preBuild task依赖 插件 对应的 assemble flavor
+            //防止上面拷贝插件的jar没有打包到app的apk里面
+            variant.preBuild.dependsOn subAssemble
+        }
+        //先卸载，防止插件不及时更新
+        variant.assemble.dependsOn variant.uninstall
+}
+
