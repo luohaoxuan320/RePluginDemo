@@ -93,8 +93,7 @@ android.applicationVariants.all{
                 def chars=variant.flavorName.chars
                 chars[0]=chars[0].toUpperCase() //首字母大写
                 copy {
-                    //从插件的生成的apk
-
+                    //从插件的生成的apk 路径
                     from "../../${pluginPrj.parent.name}/${pluginPrj.name}/build/outputs/apk/plugin${chars}/${variant.buildType.name}/${apkName}"
                     //拷贝到宿主的assert下
                     into "/src/main/assets/plugins/"
