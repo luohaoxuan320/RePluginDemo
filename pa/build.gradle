@@ -65,7 +65,6 @@ android {
   }
 }
 
-
 class GreetingPlugin implements Plugin<Project> {
   void apply(Project project) {
 
@@ -77,6 +76,12 @@ class GreetingPlugin implements Plugin<Project> {
         //作为插件编译的时候，才apply replugin，这样可以避免单体调试的时候replugin，Unzip Jar和Repackage依赖的jar包，这个过程太慢
         println '===plugin=replugin-plugin-gradle==='
         project.plugins.apply('replugin-plugin-gradle')
+        project.apply {
+          repluginPluginConfig {
+            // Name of 'App Module'，use '' if root dir is 'App Module'. ':app' as default.
+//            appModule = ':app'
+          }
+        }
       }
     }
   }
