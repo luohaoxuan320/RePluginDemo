@@ -1,0 +1,55 @@
+buildscript {
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath rootProject.repluginPluginGradle
+    }
+}
+
+//给插件用的，扩展了编译维度buildType ，方便插件单体单独编译
+apply from: '../build_config/flavor_enviroment.gradle'
+android {
+
+    compileSdkVersion rootProject.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "buildType","environment"
+    productFlavors {
+        //编译类型的维度
+
+        //作为单体运行
+        devSelf {
+            dimension  "buildType"
+        }
+
+        //作为插件编译
+        plugin{
+            dimension  "buildType"
+        }
+    }
+}
+
+
+dependencies {
+    compile rootProject.repluginPluginLib
+    devSelfImplementation rootProject.supportAppcompat
+
+    //作为插件的时候才这样
+    pluginImplementation(rootProject.supportAppcompat) {
+        exclude group: 'com.android.support', module: 'support-fragment'
+    }
+    pluginCompileOnly files('libs/fragment-26.1.0.jar')
+}

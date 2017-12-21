@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+//
 buildscript {
     repositories {
         google()
@@ -9,12 +10,14 @@ buildscript {
         classpath 'com.qihoo360.replugin:replugin-host-gradle:2.2.1'
     }
 }
+
+apply from: '../build_config/flavor_enviroment.gradle'
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.lehow.test.vpfragment"
-        minSdkVersion 18
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -25,25 +28,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    flavorDimensions 'environment'
-
-    productFlavors{
-        //环境的配置
-        envOnline{
-            dimension  "environment"
-            buildConfigField 'String', 'API_HOST_URL', '"http://uat_api.fy13322.com/"'
-        }
-        envTmode{
-            dimension  "environment"
-            buildConfigField 'String', 'API_HOST_URL', '"http://192.168.10.217:7080/"'
-        }
-        envDev{
-            dimension  "environment"
-            buildConfigField 'String', 'API_HOST_URL', '"http://192.168.10.224:7080/"'
-        }
-    }
-
 }
 
 apply plugin: 'replugin-host-gradle'
@@ -65,13 +49,12 @@ repluginHostConfig {
 
 dependencies {
     compile 'com.qihoo360.replugin:replugin-host-lib:2.2.1'
-    implementation ('com.android.support:appcompat-v7:26.1.0'){
-    }
+    implementation rootProject.supportAppcompat
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
+    testImplementation rootProject.junit
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation 'com.android.support:design:26.1.0'
+    implementation rootProject.supportDesign
 }
 
 

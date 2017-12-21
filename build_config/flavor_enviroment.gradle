@@ -1,0 +1,17 @@
+
+//环境的配置，给宿主app用的。分开是为了避免宿主中只需要environment 时，报错找不到buildType这类型
+android {
+    flavorDimensions "environment"
+    productFlavors {
+
+        //环境的配置
+        envTmode{
+            dimension  "environment"
+            buildConfigField 'String', 'API_HOST_URL', '"http://192.168.10.217:7080/"'
+        }
+        envDev{
+            dimension  "environment"
+            buildConfigField 'String', 'API_HOST_URL', '"http://192.168.10.224:7080/"'
+        }
+    }
+}

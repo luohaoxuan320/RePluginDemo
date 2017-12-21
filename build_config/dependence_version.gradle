@@ -1,0 +1,25 @@
+ext {
+    // Sdk and tools
+    minSdkVersion = 18
+    targetSdkVersion = 26
+    compileSdkVersion = 26
+
+
+    supportAppcompat= 'com.android.support:appcompat-v7:26.1.0'
+    supportDesign='com.android.support:design:26.1.0'
+
+    junit= 'junit:junit:4.12'
+    androidTestRunner= 'com.android.support.test:runner:1.0.1'
+    androidTestEspresso= 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    butterknife= 'com.jakewharton:butterknife:8.8.1'
+    butterknifeCompiler= 'com.jakewharton:butterknife-compiler:8.8.1'
+    repluginPluginLib='com.qihoo360.replugin:replugin-plugin-lib:2.2.1'
+    repluginPluginGradle='com.qihoo360.replugin:replugin-plugin-gradle:2.2.1'
+
+    dagger= 'com.google.dagger:dagger:2.14'
+    daggerCompiler= 'com.google.dagger:dagger-compiler:2.14'
+
+    retrofit2= 'com.squareup.retrofit2:retrofit:2.3.0'
+    rxjava2= "io.reactivex.rxjava2:rxjava:2.1.6"
+}
