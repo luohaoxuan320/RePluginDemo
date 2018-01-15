@@ -1,6 +1,16 @@
+
 apply plugin: 'com.android.application'
+buildscript {
 
-
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    //这个必须写在外面，不然apply from里面AutoSetReplugin 找不到replugin-plugin-gradle
+    classpath 'com.qihoo360.replugin:replugin-plugin-gradle:2.2.1'
+  }
+}
 apply from: '../build_config/build_plugin.gradle'
 android {
   defaultConfig {
@@ -10,34 +20,13 @@ android {
   }
 }
 
-class GreetingPlugin implements Plugin<Project> {
-  void apply(Project project) {
-
-    project.gradle.startParameter.taskRequests.each { TaskExecutionRequest taskq ->
-      println '==startParameter=taskRequest=' + taskq
-      if (taskq.args.toString().contains('assembleDevSelf')) {
-        //在DevSelf下就不apply replugin。这样调整主要是方便宿主直接打包插件时能apply replugin
-      }else if(taskq.args.toString().contains('assemble')){//防止 sync gradle的时候replugin插件运行
-        //作为插件编译的时候，才apply replugin，这样可以避免单体调试的时候replugin，Unzip Jar和Repackage依赖的jar包，这个过程太慢
-        println '===plugin=replugin-plugin-gradle==='
-        project.plugins.apply('replugin-plugin-gradle')
-        project.apply {
-          repluginPluginConfig {
-            // Name of 'App Module'，use '' if root dir is 'App Module'. ':app' as default.
-//            appModule = ':app'
-          }
-        }
-      }
-    }
-  }
-}
-apply plugin: GreetingPlugin
-
 
 dependencies {
+  compile rootProject.repluginPluginLib
 
-  implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+  implementation rootProject.constraintLayout
   testImplementation rootProject.junit
   androidTestImplementation rootProject.androidTestRunner
   androidTestImplementation rootProject.androidTestEspresso
 }
+

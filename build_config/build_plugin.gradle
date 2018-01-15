@@ -1,3 +1,6 @@
+
+/*这个必须写在外面，不然下面AutoSetReplugin 找不到replugin-plugin-gradle
+*
 buildscript {
 
     repositories {
@@ -7,7 +10,7 @@ buildscript {
     dependencies {
         classpath rootProject.repluginPluginGradle
     }
-}
+}*/
 
 //给插件用的，扩展了编译维度buildType ，方便插件单体单独编译
 apply from: '../build_config/flavor_enviroment.gradle'
@@ -44,12 +47,32 @@ android {
 
 
 dependencies {
-    compile rootProject.repluginPluginLib
     devSelfImplementation rootProject.supportAppcompat
 
     //作为插件的时候才这样
     pluginImplementation(rootProject.supportAppcompat) {
         exclude group: 'com.android.support', module: 'support-fragment'
     }
-    pluginCompileOnly files('libs/fragment-26.1.0.jar')
+    pluginCompileOnly files('plibs/fragment-26.1.0.jar')
 }
+
+
+//这个要定义在这个gradle里面，才能apply('replugin-plugin-gradle')，
+// 如果把这个单独定义在插件的gradle里面，就会提示找不到'replugin-plugin-gradle'
+
+class AutoSetReplugin implements Plugin<Project> {
+    void apply(Project project) {
+
+        project.gradle.startParameter.taskRequests.each { TaskExecutionRequest taskq ->
+            println '==startParameter=taskRequest=' + taskq
+            if (taskq.args.toString().contains('assembleDevSelf')) {
+                //在DevSelf下就不apply replugin。这样调整主要是方便宿主直接打包插件时能apply replugin
+            }else if(taskq.args.toString().contains('assemble')){//防止 sync gradle的时候replugin插件运行
+                //作为插件编译的时候，才apply replugin，这样可以避免单体调试的时候replugin，Unzip Jar和Repackage依赖的jar包，这个过程太慢
+                println '===plugin=replugin-plugin-gradle==='
+                project.plugins.apply('replugin-plugin-gradle')
+            }
+        }
+    }
+}
+apply plugin: AutoSetReplugin
