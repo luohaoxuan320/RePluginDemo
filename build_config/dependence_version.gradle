@@ -22,5 +22,7 @@ ext {
     daggerCompiler= 'com.google.dagger:dagger-compiler:2.14'
 
     retrofit2= 'com.squareup.retrofit2:retrofit:2.3.0'
+    retrofit2ConverterGson= 'com.squareup.retrofit2:converter-gson:2.3.0'
+    retrofit2AdapterRxjava2= 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     rxjava2= "io.reactivex.rxjava2:rxjava:2.1.6"
 }
