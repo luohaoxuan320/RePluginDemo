@@ -46,17 +46,6 @@ android {
 }
 
 
-dependencies {
-    devSelfImplementation rootProject.supportAppcompat
-
-    //作为插件的时候才这样
-    pluginImplementation(rootProject.supportAppcompat) {
-        exclude group: 'com.android.support', module: 'support-fragment'
-    }
-    pluginCompileOnly files('plibs/fragment-26.1.0.jar')
-}
-
-
 //这个要定义在这个gradle里面，才能apply('replugin-plugin-gradle')，
 // 如果把这个单独定义在插件的gradle里面，就会提示找不到'replugin-plugin-gradle'
 
@@ -76,3 +65,15 @@ class AutoSetReplugin implements Plugin<Project> {
     }
 }
 apply plugin: AutoSetReplugin
+
+
+
+dependencies {
+    devSelfImplementation rootProject.supportAppcompat
+
+    //作为插件的时候才这样
+    pluginImplementation(rootProject.supportAppcompat) {
+        exclude group: 'com.android.support', module: 'support-fragment'
+    }
+    pluginCompileOnly files('plibs/fragment-26.1.0.jar')
+}
