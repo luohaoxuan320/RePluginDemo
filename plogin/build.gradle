@@ -1,34 +1,40 @@
 apply plugin: 'com.android.application'
+buildscript {
 
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    //这个必须写在外面，不然apply from里面AutoSetReplugin 找不到replugin-plugin-gradle
+    classpath 'com.qihoo360.replugin:replugin-plugin-gradle:2.2.1'
+  }
+}
+apply from: '../build_config/build_plugin.gradle'
 android {
-  compileSdkVersion 26
-
-
-
   defaultConfig {
     applicationId "com.lehow.plogin"
-    minSdkVersion 18
-    targetSdkVersion 26
     versionCode 1
     versionName "1.0"
-
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
   }
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  compile rootProject.repluginPluginLib
 
-  implementation 'com.android.support:appcompat-v7:26.1.0'
-  implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-  testImplementation 'junit:junit:4.12'
-  androidTestImplementation 'com.android.support.test:runner:1.0.1'
-  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+  implementation rootProject.constraintLayout
+  implementation rootProject.dagger
+  annotationProcessor rootProject.daggerCompiler
+  implementation rootProject.butterknife
+  annotationProcessor rootProject.butterknifeCompiler
+  implementation rootProject.retrofit2
+  implementation rootProject.retrofit2ConverterGson
+  implementation rootProject.retrofit2AdapterRxjava2
+  implementation rootProject.rxjava2
+
+
+  testImplementation rootProject.junit
+  androidTestImplementation rootProject.androidTestRunner
+  androidTestImplementation rootProject.androidTestEspresso
 }
+
