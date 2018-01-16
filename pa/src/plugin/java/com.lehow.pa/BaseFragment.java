@@ -13,7 +13,9 @@ public abstract class BaseFragment extends Fragment {
   @Nullable @Override
   final public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    return LayoutInflater.from(RePlugin.getPluginContext()).inflate(getLayoutRes(), container, false);
+    View view = LayoutInflater.from(RePlugin.getPluginContext()).inflate(getLayoutRes(), container, false);
+    ButterKnife.bind(this,view);
+    return view;
   }
 
   protected abstract int getLayoutRes();
