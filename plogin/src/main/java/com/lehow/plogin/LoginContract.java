@@ -1,10 +1,13 @@
 package com.lehow.plogin;
 
+import android.support.v4.app.FragmentManager;
+import com.lehow.plogin.base.BasePresenter;
+import com.lehow.plogin.base.BaseView;
 import com.lehow.plogin.biz.UserEntity;
 
 public interface LoginContract {
 
-  interface View {
+  interface View extends BaseView<Presenter> {
     /**
      * 登录成功
      */
@@ -19,9 +22,11 @@ public interface LoginContract {
      * 登录失败，网络异常
      */
     void onLoginFailed();
+
+    FragmentManager getSupportFragmentManager();
   }
 
-  interface Presenter {
+  interface Presenter extends BasePresenter<View> {
     void login(String userName, String pw);
 
     void register(String userName, String pw);

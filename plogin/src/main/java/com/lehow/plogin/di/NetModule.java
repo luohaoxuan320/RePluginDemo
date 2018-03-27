@@ -1,8 +1,10 @@
 package com.lehow.plogin.di;
 
+import android.util.Log;
 import com.lehow.plogin.BuildConfig;
 import dagger.Module;
 import dagger.Provides;
+import javax.inject.Singleton;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -16,12 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
     return new OkHttpClient.Builder().build();
   }
 
-  @Provides Retrofit provideRetrofit(OkHttpClient okHttpClient) {
-    return new Retrofit.Builder().baseUrl("http://172.18.84.243:8080/agent_cloud/")
+  @Singleton @Provides Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+    Retrofit retrofit = new Retrofit.Builder().baseUrl(HOST)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(okHttpClient)
         .build();
+    Log.i(getClass().getSimpleName(), "provideRetrofit: retrofit=" + retrofit);
+    return retrofit;
   }
 
 /*

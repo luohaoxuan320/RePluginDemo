@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lehow.plogin.MainActivity"
+    tools:context="com.lehow.plogin.LoginActivity"
     >
 
   <TextView
@@ -77,5 +77,6 @@
       app:layout_constraintBaseline_toBaselineOf="@+id/btnLogin"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@+id/btnLogin"
+      android:background="@drawable/bg_selector"
       />
 </android.support.constraint.ConstraintLayout>

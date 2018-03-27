@@ -31,8 +31,11 @@ dependencies {
   implementation rootProject.retrofit2ConverterGson
   implementation rootProject.retrofit2AdapterRxjava2
   implementation rootProject.rxjava2
+  implementation rootProject.rxandroid
 
+  implementation 'org.glassfish:javax.annotation:10.0-b28'
 
+  testImplementation rootProject.mockito
   testImplementation rootProject.junit
   androidTestImplementation rootProject.androidTestRunner
   androidTestImplementation rootProject.androidTestEspresso
