@@ -17,6 +17,22 @@ android {
     versionCode 1
     versionName "1.0"
   }
+  sourceSets{
+    def dirs = ['main']
+    main {
+      manifest.srcFile("main/src/main/AndroidManifest.xml")
+      dirs.each { dir ->
+        java.srcDir("$dir/src/main/java")
+        res.srcDir("$dir/src/main/res")
+      }
+    }
+    test{
+      dirs.each { dir ->
+        java.srcDir("$dir/src/main/java")
+        res.srcDir("$dir/src/main/res")
+      }
+    }
+  }
 }
 
 dependencies {
