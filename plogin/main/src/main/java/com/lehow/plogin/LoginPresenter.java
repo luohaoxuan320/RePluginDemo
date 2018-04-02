@@ -2,6 +2,7 @@ package com.lehow.plogin;
 
 import android.text.TextUtils;
 import android.util.Log;
+import com.lehow.loading.LoadingSubscriber;
 import com.lehow.plogin.biz.LoginBiz;
 import com.lehow.plogin.biz.UserEntity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,12 +30,11 @@ public class LoginPresenter implements LoginContract.Presenter {
     loginBiz.login(userName, pw)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new ProgressDialogSubscriber<UserEntity>(loginView.getSupportFragmentManager(),
-            new Consumer<UserEntity>() {
-              @Override public void accept(UserEntity userEntity) throws Exception {
-                Log.i(TAG, "accept: userEntity=" + userEntity.getUserName());
-              }
-            }, new Consumer<Throwable>() {
+        .subscribe(new LoadingSubscriber<UserEntity>(loginView, new Consumer<UserEntity>() {
+          @Override public void accept(UserEntity userEntity) throws Exception {
+            Log.i(TAG, "accept: userEntity=" + userEntity.getUserName());
+          }
+        }, new Consumer<Throwable>() {
           @Override public void accept(Throwable throwable) throws Exception {
             if (throwable instanceof LoginBiz.LoginInfoException) {
               Log.i(TAG, "accept:登录信息错误 " + throwable.getMessage());
