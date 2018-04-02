@@ -12,6 +12,7 @@ ext {
     junit= 'junit:junit:4.12'
     androidTestRunner= 'com.android.support.test:runner:1.0.1'
     androidTestEspresso= 'com.android.support.test.espresso:espresso-core:3.0.1'
+    mockito='org.mockito:mockito-core:2.13.0'
 
     butterknife= 'com.jakewharton:butterknife:8.8.1'
     butterknifeCompiler= 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -24,5 +25,7 @@ ext {
     retrofit2= 'com.squareup.retrofit2:retrofit:2.3.0'
     retrofit2ConverterGson= 'com.squareup.retrofit2:converter-gson:2.3.0'
     retrofit2AdapterRxjava2= 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    rxjava2= "io.reactivex.rxjava2:rxjava:2.1.6"
+    rxjava2= "io.reactivex.rxjava2:rxjava:2.1.8"
+    rxandroid= 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
 }
