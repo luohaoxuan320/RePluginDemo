@@ -75,5 +75,5 @@ dependencies {
     pluginImplementation(rootProject.supportAppcompat) {
         exclude group: 'com.android.support', module: 'support-fragment'
     }
-    pluginCompileOnly files('plibs/fragment-26.1.0.jar')
+    pluginCompileOnly files('../build_config/p_libs/fragment-26.1.0.jar')
 }
