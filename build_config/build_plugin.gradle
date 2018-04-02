@@ -1,17 +1,4 @@
 
-/*这个必须写在外面，不然下面AutoSetReplugin 找不到replugin-plugin-gradle
-*
-buildscript {
-
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath rootProject.repluginPluginGradle
-    }
-}*/
-
 //给插件用的，扩展了编译维度buildType ，方便插件单体单独编译
 apply from: '../build_config/flavor_enviroment.gradle'
 android {
