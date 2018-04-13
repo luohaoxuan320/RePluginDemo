@@ -18,7 +18,7 @@ android {
     versionName "1.0"
   }
   sourceSets{
-    def dirs = ['main','p_loading_subscriber']
+    def dirs = ['main']
     main {
       manifest.srcFile("main/src/main/AndroidManifest.xml")
       dirs.each { dir ->
