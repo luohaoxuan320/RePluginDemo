@@ -28,8 +28,8 @@ android {
     }
     test{
       dirs.each { dir ->
-        java.srcDir("$dir/src/main/java")
-        res.srcDir("$dir/src/main/res")
+        java.srcDir("$dir/src/test/java")
+        res.srcDir("$dir/src/test/res")
       }
     }
   }

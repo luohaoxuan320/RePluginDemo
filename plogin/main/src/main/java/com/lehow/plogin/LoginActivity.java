@@ -3,7 +3,6 @@ package com.lehow.plogin;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +51,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
   }
 
-  @Override public FragmentManager getSupportFragmentManager() {
-    return super.getSupportFragmentManager();
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    loginPresenter.onDestory();
   }
 
   @Override public void show() {

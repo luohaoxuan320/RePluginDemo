@@ -25,7 +25,7 @@ public class LoginBiz {
         });
   }
 
-  public class LoginInfoException extends Exception {
+  public static class LoginInfoException extends Exception {
 
     public LoginInfoException(String message) {
       super(message);

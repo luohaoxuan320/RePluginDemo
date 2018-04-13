@@ -31,5 +31,8 @@ public interface LoginContract {
     void login(String userName, String pw);
 
     void register(String userName, String pw);
+
+    void onDestory();
+
   }
 }
