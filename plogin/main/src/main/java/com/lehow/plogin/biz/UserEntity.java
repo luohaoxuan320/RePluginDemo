@@ -16,4 +16,16 @@ public class UserEntity {
   public String getAddress() {
     return address;
   }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
+  public void setRealName(String realName) {
+    this.realName = realName;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
 }

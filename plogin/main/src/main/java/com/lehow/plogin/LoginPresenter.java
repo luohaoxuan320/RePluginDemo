@@ -52,7 +52,6 @@ public class LoginPresenter implements LoginContract.Presenter {
   }
 
   @Override public void onDestory() {
-    //subscribe.dispose();
     rxLifeCycleHelper.unsubscribe(RxLifeCycleHelper.ActivityEvent.DESTROY);
   }
 
