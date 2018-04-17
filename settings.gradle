@@ -1,1 +1,1 @@
-include ':app', ':pa', ':plogin'
+include ':app', ':pa', ':plogin', ':my-gson-convert'
