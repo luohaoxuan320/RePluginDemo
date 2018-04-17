@@ -1,6 +1,6 @@
-package com.lehow.plogin.biz;
+package com.lehow.net;
 
-class HttpResult<T> {
+public class HttpResult<T> {
   private int code;
   private String msg;
   private T data;
