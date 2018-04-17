@@ -7,6 +7,6 @@ import retrofit2.http.POST;
 
 public interface LoginApi {
 
-  @FormUrlEncoded @POST("lawyer/login") Flowable<HttpResult<UserEntity>> login(
+  @FormUrlEncoded @POST("lawyer/login") Flowable<UserEntity> login(
       @Field("user") String phoneNum, @Field("pwd") String password);
 }

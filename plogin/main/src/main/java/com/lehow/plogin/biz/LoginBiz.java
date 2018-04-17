@@ -2,7 +2,6 @@ package com.lehow.plogin.biz;
 
 import com.lehow.plogin.utils.Md5Utils;
 import io.reactivex.Flowable;
-import io.reactivex.functions.Function;
 
 public class LoginBiz {
 
@@ -13,8 +12,8 @@ public class LoginBiz {
   }
 
   public Flowable<UserEntity> login(String userName, String pw) {
-    return loginApi.login(userName, Md5Utils.toMd5(pw))
-        .map(new Function<HttpResult<UserEntity>, UserEntity>() {
+    return loginApi.login(userName, Md5Utils.toMd5(pw));
+      /*  .map(new Function<HttpResult<UserEntity>, UserEntity>() {
           @Override public UserEntity apply(HttpResult<UserEntity> userEntityHttpResult)
               throws Exception {
             if (userEntityHttpResult.getCode() == 0) {
@@ -22,7 +21,7 @@ public class LoginBiz {
             }
             return userEntityHttpResult.getData();
           }
-        });
+        });*/
   }
 
   public static class LoginInfoException extends Exception {

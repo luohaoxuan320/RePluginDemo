@@ -2,6 +2,7 @@ package com.lehow.plogin;
 
 import android.text.TextUtils;
 import android.util.Log;
+import com.lehow.net.NetApiException;
 import com.lehow.plogin.base.RxLifeCycleHelper;
 import com.lehow.plogin.base.RxTransformers;
 import com.lehow.plogin.biz.LoginBiz;
@@ -37,7 +38,7 @@ public class LoginPresenter implements LoginContract.Presenter {
           }
         }, new Consumer<Throwable>() {
           @Override public void accept(Throwable throwable) throws Exception {
-            if (throwable instanceof LoginBiz.LoginInfoException) {
+            if (throwable instanceof NetApiException) {
               Log.i(TAG, "accept:登录信息错误 " + throwable.getMessage());
             } else {
               Log.i(TAG, "accept: " + throwable.getMessage());

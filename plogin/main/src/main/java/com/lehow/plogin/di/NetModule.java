@@ -1,6 +1,7 @@
 package com.lehow.plogin.di;
 
 import android.util.Log;
+import com.lehow.mygsonconvert.MyGsonConverterFactory;
 import com.lehow.plogin.BuildConfig;
 import dagger.Module;
 import dagger.Provides;
@@ -8,7 +9,6 @@ import javax.inject.Singleton;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module public class NetModule {
 
@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
   @Singleton @Provides Retrofit provideRetrofit(OkHttpClient okHttpClient) {
     Retrofit retrofit = new Retrofit.Builder().baseUrl(HOST)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(MyGsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(okHttpClient)
         .build();
