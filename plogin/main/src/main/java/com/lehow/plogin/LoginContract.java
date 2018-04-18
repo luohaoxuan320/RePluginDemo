@@ -1,6 +1,5 @@
 package com.lehow.plogin;
 
-import android.support.v4.app.FragmentManager;
 import com.lehow.plogin.base.BasePresenter;
 import com.lehow.plogin.base.BaseView;
 import com.lehow.plogin.base.ILoadingView;
@@ -24,7 +23,6 @@ public interface LoginContract {
      */
     void onLoginFailed();
 
-    FragmentManager getSupportFragmentManager();
   }
 
   interface Presenter extends BasePresenter<View> {
