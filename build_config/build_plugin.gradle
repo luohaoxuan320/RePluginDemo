@@ -38,7 +38,7 @@ android {
 
 class AutoSetReplugin implements Plugin<Project> {
     void apply(Project project) {
-
+        println "==AutoSetReplugin=="
         project.gradle.startParameter.taskRequests.each { TaskExecutionRequest taskq ->
             println '==startParameter=taskRequest=' + taskq
             if (taskq.args.toString().contains('assembleDevSelf')) {
@@ -51,12 +51,14 @@ class AutoSetReplugin implements Plugin<Project> {
         }
     }
 }
+
+
 apply plugin: AutoSetReplugin
-
-
 
 dependencies {
     devSelfImplementation rootProject.supportAppcompat
+
+    pluginImplementation rootProject.repluginPluginLib
 
     //作为插件的时候才这样
     pluginImplementation(rootProject.supportAppcompat) {

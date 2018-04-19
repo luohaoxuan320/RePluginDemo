@@ -22,7 +22,9 @@ android {
 
 
 dependencies {
-  compile rootProject.repluginPluginLib
+
+  implementation rootProject.butterknife
+  annotationProcessor rootProject.butterknifeCompiler
 
   implementation rootProject.constraintLayout
   testImplementation rootProject.junit
