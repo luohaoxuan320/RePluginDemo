@@ -57,7 +57,7 @@ apply plugin: AutoSetReplugin
 
 dependencies {
     devSelfImplementation rootProject.supportAppcompat
-
+    //插件编译时依赖repluginPluginLib
     pluginImplementation rootProject.repluginPluginLib
 
     //作为插件的时候才这样
