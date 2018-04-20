@@ -30,6 +30,17 @@ android {
             dimension  "buildType"
         }
     }
+    sourceSets {
+        //作为单体运行
+        devSelf {
+            java.srcDir("../build_config/devSelf/java")
+        }
+
+        //作为插件编译
+        plugin{
+            java.srcDir("../build_config/plugin/java")
+        }
+    }
 }
 
 
