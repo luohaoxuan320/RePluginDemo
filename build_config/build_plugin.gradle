@@ -67,22 +67,21 @@ class AutoSetReplugin implements Plugin<Project> {
 apply plugin: AutoSetReplugin
 
 dependencies {
-    devSelfImplementation rootProject.supportAppcompat
+    implementation rootProject.supportAppcompat
     //插件编译时依赖repluginPluginLib
     pluginImplementation rootProject.repluginPluginLib
 
     //作为插件的时候才这样
-    pluginImplementation(rootProject.supportAppcompat) {
-        exclude group: 'com.android.support', module: 'support-fragment'
-    }
     pluginCompileOnly files('../build_config/p_libs/fragment-26.1.0.jar')
 }
-
 
 android.applicationVariants.all{
     variant ->
         if(variant.flavorName.startsWith("plugin")) {
             println("flavorName="+variant.flavorName)
+            variant.getCompileConfiguration().exclude group: 'com.android.support', module: 'support-fragment'
+            //getRuntimeConfiguration 运行时移除，相当于CompileOnly，只在编译时参与。
+            // 而support-fragment本质是aar依赖，不能只CompileOnly，需要编译时也移除，所以必须上面这句
             variant.getRuntimeConfiguration().exclude group: 'com.android.support', module: 'support-fragment'
         }
 }
