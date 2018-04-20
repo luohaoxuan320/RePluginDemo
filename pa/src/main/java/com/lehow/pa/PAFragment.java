@@ -3,6 +3,7 @@ package com.lehow.pa;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+import com.lehow.comm.base.BaseFragment;
 
 public class PAFragment extends BaseFragment {
 
