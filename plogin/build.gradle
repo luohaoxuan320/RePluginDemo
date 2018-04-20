@@ -54,3 +54,11 @@ dependencies {
   implementation project(':my-gson-convert')
 }
 
+
+/*
+android.applicationVariants.all{
+  variant ->
+    if(variant.flavorName.startsWith("plugin")) {
+        variant.getRuntimeConfiguration().exclude group: 'com.android.support', module: 'support-fragment'
+    }
+}*/

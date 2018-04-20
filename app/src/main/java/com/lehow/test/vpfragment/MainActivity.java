@@ -1,21 +1,24 @@
 package com.lehow.test.vpfragment;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TableLayout;
 import com.qihoo360.replugin.RePlugin;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
   private ViewPager viewPager;
   private TabLayout tabLayout;
+  String[] plugins = new String[] {
+      "pa:com.lehow.pa.PAFragment", "plogin:com.lehow.plogin.LoginFragment"
+  };
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -28,31 +31,37 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
+  private Fragment[] getPluginFragments() {
+    Fragment[] fragments = new Fragment[plugins.length];
+    for (int i = 0; i < plugins.length; i++) {
+      String[] split = plugins[i].split(":");
+      Context pluginContext = RePlugin.fetchContext(split[0]);
+      if (pluginContext != null) {
+        ClassLoader d1ClassLoader = RePlugin.fetchClassLoader(split[0]);//获取插件的ClassLoader
+        try {
+          Fragment fragment = d1ClassLoader.loadClass(split[1])
+              .asSubclass(Fragment.class)
+              .newInstance();                                      //使用插件的Classloader获取指定Fragment实例
+          fragments[i] = fragment;
+        } catch (InstantiationException e) {
+          e.printStackTrace();
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return fragments;
+  }
+
   private class MFragmentAdapter extends FragmentPagerAdapter {
-    Fragment[] fragments;
+    ArrayList<Fragment> fragments = new ArrayList<>();
+
     public MFragmentAdapter(FragmentManager fm) {
       super(fm);
-      String paPluginName = "pa";
-      final String paClassName = "com.lehow.pa.PAFragment";
-
-      final ClassLoader paClassLoader = RePlugin.fetchClassLoader(paPluginName);//这里并不会保证插件的application进程被初始化
-      //注意这里的坑，如果插件的fragment里面getPluginContext==null,那么这里必须调用fetchContext,才能实例化插件的application进程
-      //插件fragment里面getPluginContext 才有效
-      Log.i("TAG", "MFragmentAdapter: fetchContext="+RePlugin.fetchContext("pa"));
-      try {
-        Fragment fragmentPA =
-            paClassLoader.loadClass(paClassName).asSubclass(Fragment.class).newInstance();
-        fragments = new Fragment[] {
-            AFragment.newInstance(), fragmentPA, AFragment.newInstance()
-        };
-      } catch (InstantiationException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      }
-
+      fragments.add(AFragment.newInstance());
+      fragments.addAll(Arrays.asList(getPluginFragments()));
     }
 
     @Override public CharSequence getPageTitle(int position) {
@@ -60,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override public Fragment getItem(int position) {
-      return fragments[position];
+      return fragments.get(position);
     }
 
     @Override public int getCount() {
-      return 3;
+      return fragments.size();
     }
   }
 }

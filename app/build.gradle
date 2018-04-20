@@ -59,7 +59,7 @@ dependencies {
 
 
 //定义打包是要参与编译的插件
-def moduleName=[':pa':true]
+def moduleName=[':pa':true,':plogin':true]
 import com.android.build.gradle.api.ApplicationVariant
 android.applicationVariants.all{
     ApplicationVariant variant ->
