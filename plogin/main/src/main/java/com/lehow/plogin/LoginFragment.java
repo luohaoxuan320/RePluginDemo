@@ -1,9 +1,11 @@
 package com.lehow.plogin;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +35,11 @@ public class LoginFragment extends Fragment implements LoginContract.View {
   @Nullable @Override
   final public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    View view = LayoutInflater.from(IContext.getRealContext(getContext()))
-        .inflate(R.layout.fragment_login, container, false);
+    Context ctxWithTheme =
+        new ContextThemeWrapper(IContext.getLocalContext(getContext()), R.style.AppTheme);
+    LayoutInflater localLayoutInflater =
+        LayoutInflater.from(IContext.getLocalContext(getContext())).cloneInContext(ctxWithTheme);
+    View view = localLayoutInflater.inflate(R.layout.fragment_login, container, false);
     ButterKnife.bind(this, view);
     return view;
   }
@@ -83,7 +88,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState) {
-      return LayoutInflater.from(IContext.getRealContext(getContext()))
+      return LayoutInflater.from(IContext.getLocalContext(getContext()))
           .inflate(R.layout.layout_dialog_fragment, container, false);
     }
   }

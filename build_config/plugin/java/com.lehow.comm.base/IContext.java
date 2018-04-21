@@ -5,7 +5,7 @@ import com.qihoo360.replugin.RePlugin;
 
 public class IContext {
 
-  public static Context getRealContext(Context context) {
+  public static Context getLocalContext(Context context) {
     return RePlugin.getPluginContext();
   }
 }
